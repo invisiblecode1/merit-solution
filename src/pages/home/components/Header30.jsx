@@ -32,7 +32,7 @@ const HeroSlider = () => {
     const activeVideo = activeSlide?.querySelector('video');
     if (activeVideo) {
       activeVideo.currentTime = 0;
-      activeVideo.play();
+      activeVideo.play().catch(err => console.log('Video play error:', err));
     }
   };
 
@@ -56,6 +56,12 @@ const HeroSlider = () => {
   };
 
   useEffect(() => {
+    // Auto-play first video on mount
+    const firstVideo = slidesRef.current[0]?.querySelector('video');
+    if (firstVideo) {
+      firstVideo.play().catch(err => console.log('Video play error:', err));
+    }
+
     timerRef.current = setInterval(nextSlide, slideInterval);
 
     const handleKeyDown = (e) => {
@@ -89,6 +95,7 @@ const HeroSlider = () => {
           width: 100%;
           overflow: hidden;
           margin-top: 0;
+          background-color: #000;
         }
 
         .slide {
@@ -233,8 +240,15 @@ const HeroSlider = () => {
             ref={(el) => (slidesRef.current[index] = el)}
             className={`slide ${currentSlide === index ? 'active' : ''}`}
           >
-            <video autoPlay muted loop playsInline>
+            <video 
+              autoPlay={index === 0} 
+              muted 
+              loop 
+              playsInline
+              preload="auto"
+            >
               <source src={slide.video} type="video/mp4" />
+              Your browser does not support the video tag.
             </video>
             {slide.hasOverlay && (
               <div className="content-overlay">
