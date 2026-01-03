@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 
+
 function FeaturesCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
+
   const images = [
-    "/img/design-1210160_1920.jpg",
-    "/img/seo-1210158_1920.jpg",
-    "/img/web.jpg",
-    "/img/internet-2224603_1920.jpg"
+    `${import.meta.env.BASE_URL}img/design-1210160_1920.jpg`,
+    `${import.meta.env.BASE_URL}img/seo-1210158_1920.jpg`,
+    `${import.meta.env.BASE_URL}img/web.jpg`,
+    `${import.meta.env.BASE_URL}img/internet-2224603_1920.jpg`
   ];
+
 
   // Auto-slide every 5 seconds
   useEffect(() => {
@@ -18,9 +21,11 @@ function FeaturesCarousel() {
     return () => clearInterval(interval);
   }, [images.length]);
 
+
   const goToSlide = (index) => {
     setCurrentSlide(index);
   };
+
 
   const styles = {
     section: {
@@ -104,6 +109,7 @@ function FeaturesCarousel() {
     }
   };
 
+
   return (
     <section style={styles.section}>
       <div style={styles.container}>
@@ -161,5 +167,6 @@ function FeaturesCarousel() {
     </section>
   );
 }
+
 
 export default FeaturesCarousel;
