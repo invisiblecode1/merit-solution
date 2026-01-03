@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navContainerRef = useRef(null);
+  const navigate = useNavigate();
 
   // Toggle menu
   const toggleMenu = () => {
@@ -24,9 +25,12 @@ const Navbar = () => {
     };
   }, []);
 
-  // Close menu when a link is clicked
-  const handleLinkClick = () => {
+  // Handle link click - navigate and scroll to top
+  const handleLinkClick = (path) => (e) => {
+    e.preventDefault();
     setIsMenuOpen(false);
+    window.scrollTo(0, 0);
+    navigate(path);
   };
 
   return (
@@ -38,12 +42,10 @@ const Navbar = () => {
           box-sizing: border-box;
         }
 
-        // In your Navbar component's <style> tag, change:
-html {
-  height: auto;
-  scroll-behavior: auto;  /* Change from smooth to auto */
-}
-
+        html {
+          height: auto;
+          scroll-behavior: auto;
+        }
 
         body {
           font-family: Arial, sans-serif;
@@ -55,12 +57,11 @@ html {
          background-color: #ffffff;
          padding: 0.8rem 5rem;
          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-         position: sticky;  /* Change from fixed to sticky */
+         position: sticky;
          top: 0;
          width: 100%;
          z-index: 1000;
         }
-
 
         .nav-container {
           max-width: 1300px;
@@ -313,17 +314,17 @@ html {
 
       <nav>
         <div className="nav-container" ref={navContainerRef}>
-          <Link to="/" className="logo">
-            <img src="img/merit logo.png" alt="Logo" />
+          <Link to="/" className="logo" onClick={handleLinkClick('/')}>
+            <img src={`${import.meta.env.BASE_URL}img/merit logo.png`} alt="Logo" />
           </Link>
           <button className="menu-btn" onClick={toggleMenu}>
             {isMenuOpen ? '✕' : '☰'}
           </button>
           <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-            <li><Link to="/" onClick={handleLinkClick}>Home</Link></li>
-            <li><Link to="/price" onClick={handleLinkClick}>Pricing</Link></li>
-            <li><Link to="/portfolio" onClick={handleLinkClick}>Portfolio</Link></li>
-            <li><Link to="/about" onClick={handleLinkClick}>About</Link></li>
+            <li><Link to="/" onClick={handleLinkClick('/')}>Home</Link></li>
+            <li><Link to="/price" onClick={handleLinkClick('/price')}>Pricing</Link></li>
+            <li><Link to="/portfolio" onClick={handleLinkClick('/portfolio')}>Portfolio</Link></li>
+            <li><Link to="/about" onClick={handleLinkClick('/about')}>About</Link></li>
           </ul>
         </div>
       </nav>
