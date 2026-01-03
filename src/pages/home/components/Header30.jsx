@@ -1,24 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+
 const HeroSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const slidesRef = useRef([]);
   const slideInterval = 10000;
   const timerRef = useRef(null);
 
+
   const slides = [
     {
-      video: '/vid/vedio1.mp4',
+      video: `${import.meta.env.BASE_URL}vid/vedio1.mp4`,
       hasOverlay: false
     },
     {
-      video: '/vid/vedio2.mp4',
+      video: `${import.meta.env.BASE_URL}vid/vedio2.mp4`,
       hasOverlay: true,
       title: 'Inspiring Design',
       description: 'Elevate your digital presence with Merit Solution. Our innovative solutions create captivating experiences that truly engage your audience.',
       link: '#taofeek'
     }
   ];
+
 
   const showSlide = (index) => {
     setCurrentSlide(index);
@@ -28,18 +31,21 @@ const HeroSlider = () => {
       if (video) video.pause();
     });
 
+
     const activeSlide = slidesRef.current[index];
     const activeVideo = activeSlide?.querySelector('video');
     if (activeVideo) {
       activeVideo.currentTime = 0;
-      activeVideo.play().catch(err => console.log('Video play error:', err));
+      activeVideo.play();
     }
   };
+
 
   const nextSlide = () => {
     const next = (currentSlide + 1) % slides.length;
     showSlide(next);
   };
+
 
   const resetInterval = () => {
     if (timerRef.current) {
@@ -48,6 +54,7 @@ const HeroSlider = () => {
     timerRef.current = setInterval(nextSlide, slideInterval);
   };
 
+
   const handleDotClick = (index) => {
     if (currentSlide !== index) {
       showSlide(index);
@@ -55,14 +62,10 @@ const HeroSlider = () => {
     }
   };
 
-  useEffect(() => {
-    // Auto-play first video on mount
-    const firstVideo = slidesRef.current[0]?.querySelector('video');
-    if (firstVideo) {
-      firstVideo.play().catch(err => console.log('Video play error:', err));
-    }
 
+  useEffect(() => {
     timerRef.current = setInterval(nextSlide, slideInterval);
+
 
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowLeft') {
@@ -76,7 +79,9 @@ const HeroSlider = () => {
       }
     };
 
+
     document.addEventListener('keydown', handleKeyDown);
+
 
     return () => {
       if (timerRef.current) {
@@ -85,6 +90,7 @@ const HeroSlider = () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [currentSlide]);
+
 
   return (
     <>
@@ -95,8 +101,8 @@ const HeroSlider = () => {
           width: 100%;
           overflow: hidden;
           margin-top: 0;
-          background-color: #000;
         }
+
 
         .slide {
           position: absolute;
@@ -109,16 +115,19 @@ const HeroSlider = () => {
           z-index: 1;
         }
 
+
         .slide.active {
           opacity: 1;
           z-index: 2;
         }
+
 
         .slide video {
           width: 100%;
           height: 100%;
           object-fit: cover;
         }
+
 
         .content-overlay {
           position: absolute;
@@ -134,6 +143,7 @@ const HeroSlider = () => {
           animation: slideIn 3s ease-out;
         }
 
+
         @keyframes slideIn {
           from {
             opacity: 0;
@@ -145,6 +155,7 @@ const HeroSlider = () => {
           }
         }
 
+
         .content-overlay h2 {
           font-size: 4rem;
           line-height: 1;
@@ -153,12 +164,14 @@ const HeroSlider = () => {
           text-shadow: 2px 2px 4px rgba(240, 1, 1, 0.459);
         }
 
+
         .content-overlay p {
           font-size: 1rem;
           margin-bottom: 2rem;
           line-height: 1.6;
           text-shadow: 1px 1px 2px rgba(131, 122, 122, 0.3);
         }
+
 
         .cta-button {
           display: inline-block;
@@ -175,6 +188,7 @@ const HeroSlider = () => {
           letter-spacing: 1px;
         }
 
+
         .cta-button:hover {
           background-color: transparent;
           border-color: #ff4d4d;
@@ -182,6 +196,7 @@ const HeroSlider = () => {
           box-shadow: 0 5px 15px rgba(255, 77, 77, 0.3);
           color: #ff4d4d;
         }
+
 
         .slider-nav {
           position: absolute;
@@ -193,6 +208,7 @@ const HeroSlider = () => {
           z-index: 3;
         }
 
+
         .slider-dot {
           width: 12px;
           height: 12px;
@@ -202,10 +218,12 @@ const HeroSlider = () => {
           transition: all 0.4s ease;
         }
 
+
         .slider-dot.active {
           background-color: #ff00008a;
           transform: scale(1.2);
         }
+
 
         @media (max-width: 768px) {
           .fslider-container { height: 80vh; }
@@ -221,17 +239,20 @@ const HeroSlider = () => {
           .content-overlay p { font-size: 1rem; }
         }
 
+
         @media (max-width: 640px) {
           .fslider-container { height: 70vh; }
           .slide video { height: 70vh; }
           .content-overlay { display: none; }
         }
 
+
         @media (max-width: 470px) {
           .fslider-container { height: 60vh; }
           .slide video { height: 60vh; }
         }
       `}</style>
+
 
       <div className="fslider-container">
         {slides.map((slide, index) => (
@@ -240,15 +261,8 @@ const HeroSlider = () => {
             ref={(el) => (slidesRef.current[index] = el)}
             className={`slide ${currentSlide === index ? 'active' : ''}`}
           >
-            <video 
-              autoPlay={index === 0} 
-              muted 
-              loop 
-              playsInline
-              preload="auto"
-            >
+            <video autoPlay muted loop playsInline>
               <source src={slide.video} type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
             {slide.hasOverlay && (
               <div className="content-overlay">
@@ -259,6 +273,7 @@ const HeroSlider = () => {
             )}
           </div>
         ))}
+
 
         <div className="slider-nav">
           {slides.map((_, index) => (
@@ -273,5 +288,6 @@ const HeroSlider = () => {
     </>
   );
 };
+
 
 export default HeroSlider;
