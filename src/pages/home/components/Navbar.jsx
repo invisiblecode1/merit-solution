@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navContainerRef = useRef(null);
-  const navigate = useNavigate();
+
 
   // Toggle menu
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -19,19 +21,20 @@ const Navbar = () => {
       }
     };
 
+
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
 
-  // Handle link click - navigate and scroll to top
-  const handleLinkClick = (path) => (e) => {
-    e.preventDefault();
+
+  // Handle link click - close menu and scroll to top
+  const handleLinkClick = () => {
     setIsMenuOpen(false);
     window.scrollTo(0, 0);
-    navigate(path);
   };
+
 
   return (
     <>
@@ -42,16 +45,19 @@ const Navbar = () => {
           box-sizing: border-box;
         }
 
+
         html {
           height: auto;
           scroll-behavior: auto;
         }
+
 
         body {
           font-family: Arial, sans-serif;
           line-height: 1.6;
           background-color: #f8f9fa;
         }
+
 
         nav {
          background-color: #ffffff;
@@ -63,6 +69,7 @@ const Navbar = () => {
          z-index: 1000;
         }
 
+
         .nav-container {
           max-width: 1300px;
           margin: 0 auto;
@@ -72,6 +79,7 @@ const Navbar = () => {
           position: relative;
         }
 
+
         .logo {
           display: flex;
           align-items: center;
@@ -79,17 +87,20 @@ const Navbar = () => {
           padding: 0.5rem 1rem;
         }
 
+
         .logo img {
           max-height: 50px;
           width: auto;
           display: block;
         }
 
+
         .nav-links {
           display: flex;
           gap: 1.5rem;
           list-style: none;
         }
+
 
         .nav-links a {
           color: #333;
@@ -101,10 +112,12 @@ const Navbar = () => {
           transition: all 0.3s ease;
         }
 
+
         .nav-links a:hover {
           background-color: #f0f0f0;
           color: #d43737;
         }
+
 
         .menu-btn {
           display: none;
@@ -122,6 +135,7 @@ const Navbar = () => {
           z-index: 1002;
         }
 
+
         /* 1538px breakpoint */
         @media (max-width: 1538px) {
           .nav-container {
@@ -134,6 +148,7 @@ const Navbar = () => {
             font-size: 1.2rem;
           }
         }
+
 
         /* 1280px breakpoint */
         @media (max-width: 1280px) {
@@ -154,6 +169,7 @@ const Navbar = () => {
           }
         }
 
+
         /* 1025px breakpoint */
         @media (max-width: 1025px) {
           nav {
@@ -169,6 +185,7 @@ const Navbar = () => {
             gap: 1.2rem;
           }
         }
+
 
         /* 768px breakpoint - HAMBURGER MENU STARTS HERE */
         @media (max-width: 768px) {
@@ -223,6 +240,7 @@ const Navbar = () => {
           }
         }
 
+
         /* 640px breakpoint */
         @media (max-width: 640px) {
           nav {
@@ -237,6 +255,7 @@ const Navbar = () => {
             top: 55px;
           }
         }
+
 
         /* 470px breakpoint */
         @media (max-width: 470px) {
@@ -259,6 +278,7 @@ const Navbar = () => {
           }
         }
 
+
         /* 425px breakpoint */
         @media (max-width: 425px) {
           nav {
@@ -269,6 +289,7 @@ const Navbar = () => {
             max-height: 32px;
           }
         }
+
 
         /* 375px breakpoint */
         @media (max-width: 375px) {
@@ -284,6 +305,7 @@ const Navbar = () => {
             font-size: 1.2rem;
           }
         }
+
 
         /* 320px breakpoint */
         @media (max-width: 320px) {
@@ -312,24 +334,26 @@ const Navbar = () => {
         }
       `}</style>
 
+
       <nav>
         <div className="nav-container" ref={navContainerRef}>
-          <Link to="/" className="logo" onClick={handleLinkClick('/')}>
+          <Link to="/" className="logo" onClick={handleLinkClick}>
             <img src={`${import.meta.env.BASE_URL}img/merit logo.png`} alt="Logo" />
           </Link>
           <button className="menu-btn" onClick={toggleMenu}>
             {isMenuOpen ? '✕' : '☰'}
           </button>
           <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-            <li><Link to="/" onClick={handleLinkClick('/')}>Home</Link></li>
-            <li><Link to="/price" onClick={handleLinkClick('/price')}>Pricing</Link></li>
-            <li><Link to="/portfolio" onClick={handleLinkClick('/portfolio')}>Portfolio</Link></li>
-            <li><Link to="/about" onClick={handleLinkClick('/about')}>About</Link></li>
+            <li><Link to="/" onClick={handleLinkClick}>Home</Link></li>
+            <li><Link to="/price" onClick={handleLinkClick}>Pricing</Link></li>
+            <li><Link to="/portfolio" onClick={handleLinkClick}>Portfolio</Link></li>
+            <li><Link to="/about" onClick={handleLinkClick}>About</Link></li>
           </ul>
         </div>
       </nav>
     </>
   );
 };
+
 
 export default Navbar;
