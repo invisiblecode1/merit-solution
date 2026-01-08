@@ -4,7 +4,7 @@ const PricingSection = () => {
   const plans = [
     {
       name: 'Basic',
-      price: '$400',
+      price: '$500',
       billing: '/project',
       features: [
         '5-page website',
