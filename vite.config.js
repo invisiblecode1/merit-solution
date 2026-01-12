@@ -1,12 +1,12 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
+  base: '/', // root custom domain like https://meritssolution.com
   plugins: [react(), tailwindcss()],
-  base: '/',  // Changed from '/merit-solution/' to '/'
   server: {
     host: true,
     port: 5173,
-  }
-})
+  },
+});
