@@ -8,7 +8,7 @@ import About from './pages/about';
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/price" element={<Price />} />
