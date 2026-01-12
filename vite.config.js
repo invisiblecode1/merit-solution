@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/',  // Changed from '/merit-solution/' to '/'
+  base: '/merit-solution/',  // Replace with your actual repo name
   server: {
     host: true,
     port: 5173,
